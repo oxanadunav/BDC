@@ -1,0 +1,30 @@
+\select@language {english}
+\select@language {english}
+\select@language {english}
+\thispagestyle {empty}
+\contentsline {section}{Introduction}{3}
+\contentsline {section}{\numberline {1}Control Structures in PL/SQL}{4}
+\contentsline {subsection}{\numberline {1.1}Conditional Control: IF and CASE Statements}{4}
+\contentsline {subsubsection}{\numberline {1.1.1}IF-THEN}{4}
+\contentsline {subsubsection}{\numberline {1.1.2}IF-THEN-ELSE}{4}
+\contentsline {subsubsection}{\numberline {1.1.3}IF-THEN-ELSIF}{5}
+\contentsline {subsubsection}{\numberline {1.1.4}CASE Statement}{6}
+\contentsline {subsubsection}{\numberline {1.1.5}Searched CASE Statement}{6}
+\contentsline {subsection}{\numberline {1.2}Iterative Control: LOOP and EXIT Statements}{7}
+\contentsline {subsubsection}{\numberline {1.2.1}LOOP}{7}
+\contentsline {subsubsection}{\numberline {1.2.2}EXIT}{7}
+\contentsline {subsubsection}{\numberline {1.2.3}EXIT-WHEN}{7}
+\contentsline {subsubsection}{\numberline {1.2.4}WHILE-LOOP}{8}
+\contentsline {subsubsection}{\numberline {1.2.5}FOR-LOOP}{8}
+\contentsline {subsection}{\numberline {1.3}Sequential Control: GOTO and NULL Statements}{9}
+\contentsline {subsubsection}{\numberline {1.3.1}GOTO Statement}{9}
+\contentsline {subsubsection}{\numberline {1.3.2}NULL Statement}{10}
+\contentsline {section}{\numberline {2}Control Structures in T-SQL}{11}
+\contentsline {subsection}{\numberline {2.1}IF...ELSE}{11}
+\contentsline {subsection}{\numberline {2.2}CASE}{12}
+\contentsline {subsection}{\numberline {2.3}WHILE-BREAK-CONTINUE}{14}
+\contentsline {subsection}{\numberline {2.4}GOTO}{14}
+\contentsline {section}{\numberline {3}Practical Part}{16}
+\contentsline {subsection}{\numberline {3.1}Differences and similarities between MSSQL and Oracle}{16}
+\contentsline {section}{Conclusions}{22}
+\contentsline {section}{References}{23}

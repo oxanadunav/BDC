@@ -1,0 +1,110 @@
+\section{Control Structures in T-SQL}
+\phantomsection
+
+The Transact-SQL control-of-flow language keywords for are:
+\begin{itemize}
+  \item BEGIN...END
+  \item BREAK	
+  \item CONTINUE	
+  \item GOTO label	
+  \item RETURN
+  \item IF...ELSE
+  \item THROW
+  \item TRY...CATCH
+  \item WAITFOR
+  \item WHILE.
+\end{itemize}
+
+\subsection{IF...ELSE}
+Imposes conditions on the execution of a Transact-SQL statement. The Transact-SQL statement that follows an IF keyword and its condition is executed if the condition is satisfied: the Boolean expression returns TRUE. The optional ELSE keyword introduces another Transact-SQL statement that is executed when the IF condition is not satisfied: the Boolean expression returns FALSE.\newline
+
+\textbf{Syntax:}
+\begin{verbatim}
+IF Boolean_expression   
+     { sql_statement | statement_block }   
+[ ELSE   
+     { sql_statement | statement_block } ]   
+\end{verbatim}
+
+\textbf{Arguments:}\newline
+\textit{Boolean\_expression}\newline
+Is an expression that returns TRUE or FALSE. If the Boolean expression contains a SELECT statement, the SELECT statement must be enclosed in parentheses.\newline
+\textit{{ sql\_statement$\mid$ statement\_block }}\newline
+Is any Transact-SQL statement or statement grouping as defined by using a statement block. Unless a statement block is used, the IF or ELSE condition can affect the performance of only one Transact-SQL statement.
+To define a statement block, use the control-of-flow keywords BEGIN and END.
+
+\textbf{Example:}\newline
+\lstinputlisting[style=mystyle, language=SQL]{sourcecode/sql-ifelse.sql}
+
+\textbf{Using nested IF...ELSE statements}\newline
+The following example shows how an IF … ELSE statement can be nested inside another. Set the @Number variable to 5, 50, and 500 to test each statement.
+\lstinputlisting[style=mystyle, language=SQL]{sourcecode/sql-ifelse2.sql}
+
+\subsection{CASE}
+Evaluates a list of conditions and returns one of multiple possible result expressions. 
+The CASE expression has two formats:
+\begin{itemize}
+\item The simple CASE expression compares an expression to a set of simple expressions to determine the result.
+\item The searched CASE expression evaluates a set of Boolean expressions to determine the result.
+\end{itemize}
+
+Both formats support an optional ELSE argument.
+CASE can be used in any statement or clause that allows a valid expression. For example, you can use CASE in statements such as SELECT, UPDATE, DELETE and SET, and in clauses such as select\_list, IN, WHERE, ORDER BY, and HAVING.
+
+\textbf{Syntax:}
+\begin{verbatim}
+Simple CASE expression:   
+CASE input_expression   
+     WHEN when_expression THEN result_expression [ ...n ]   
+     [ ELSE else_result_expression ]   
+END   
+Searched CASE expression:  
+CASE  
+     WHEN Boolean_expression THEN result_expression [ ...n ]   
+     [ ELSE else_result_expression ]   
+END  
+\end{verbatim}
+
+\textbf{Example:}\newline
+\begin{itemize}
+\item Using a SELECT statement with a simple CASE expression
+Within a SELECT statement, a simple CASE expression allows for only an equality check; no other comparisons are made. The following example uses the CASE expression to change the display of product line categories to make them more understandable.
+\lstinputlisting[style=mystyle, language=SQL]{sourcecode/sql-case.sql}
+\item Using a SELECT statement with a searched CASE expression
+Within a SELECT statement, the searched CASE expression allows for values to be replaced in the result set based on comparison values. The following example displays the list price as a text comment based on the price range for a product.
+\lstinputlisting[style=mystyle, language=SQL]{sourcecode/sql-case2.sql}
+\end{itemize}
+
+\subsection{WHILE-BREAK-CONTINUE}
+Sets a condition for the repeated execution of an SQL statement or statement block. The statements are executed repeatedly as long as the specified condition is true. The execution of statements in the WHILE loop can be controlled from inside the loop with the BREAK and CONTINUE keywords.\newline
+\textbf{Syntax:}
+\begin{verbatim}
+WHILE Boolean_expression   
+     { sql_statement | statement_block | BREAK | CONTINUE }   
+\end{verbatim}
+\textbf{BREAK}\newline
+Causes an exit from the innermost WHILE loop. Any statements that appear after the END keyword, marking the end of the loop, are executed.\newline
+\textbf{CONTINUE}\newline
+Causes the WHILE loop to restart, ignoring any statements after the CONTINUE keyword.\newline
+
+\textbf{Example:}\newline
+\textbf{Using BREAK and CONTINUE with nested IF...ELSE and WHILE:}\newline
+In the following example, if the average list price of a product is less than 300, the WHILE loop doubles the prices and then selects the maximum price. If the maximum price is less than or equal to 500, the WHILE loop restarts and doubles the prices again. This loop continues doubling the prices until the maximum price is greater than 500, and then exits the WHILE loop and prints a message.
+\lstinputlisting[style=mystyle, language=SQL]{sourcecode/sql-while.sql}
+
+\subsection{GOTO}
+Alters the flow of execution to a label. The Transact-SQL statement or statements that follow GOTO are skipped and processing continues at the label. GOTO statements and labels can be used anywhere within a procedure, batch, or statement block. GOTO statements can be nested.\newline
+\textbf{Syntax:}
+\begin{verbatim}
+Define the label:   
+label:   
+Alter the execution:  
+GOTO label    
+\end{verbatim}
+\textit{label}\newline
+Is the point after which processing starts if a GOTO is targeted to that label. Labels must follow the rules for identifiers. A label can be used as a commenting method whether GOTO is used.
+\textbf{Example:}\newline
+The following example shows how to use GOTO as a branch mechanism.
+\lstinputlisting[style=mystyle, language=SQL]{sourcecode/sql-goto.sql}
+
+\clearpage

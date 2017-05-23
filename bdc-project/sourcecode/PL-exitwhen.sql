@@ -1,0 +1,6 @@
+LOOP
+   FETCH c1 INTO ...
+   EXIT WHEN c1%NOTFOUND;  -- exit loop if condition is true
+   ...
+END LOOP;
+CLOSE c1;

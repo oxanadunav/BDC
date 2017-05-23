@@ -1,0 +1,138 @@
+\section{Control Structures in PL/SQL}
+\phantomsection
+
+\subsection{Conditional Control: IF and CASE Statements}
+The IF statement lets you execute a sequence of statements conditionally. That is, whether the sequence is executed or not depends on the value of a condition. There are three forms of IF statements: IF-THEN, IF-THEN-ELSE, and IF-THEN-ELSIF. The CASE statement is a compact way to evaluate a single condition and choose between many alternative actions.
+
+\subsubsection{IF-THEN}
+The simplest form of IF statement associates a condition with a sequence of statements enclosed by the keywords THEN and END IF (not ENDIF), as follows:
+\begin{verbatim}
+	IF condition THEN
+   		sequence_of_statements
+	END IF;
+\end{verbatim}
+The sequence of statements is executed only if the condition is true. If the condition is false or null, the IF statement does nothing. In either case, control passes to the next statement. An example follows:
+\lstinputlisting[style=mystyle, language=SQL]{sourcecode/PL-IF-THEN.sql}
+
+\subsubsection{IF-THEN-ELSE}
+The second form of IF statement adds the keyword ELSE followed by an alternative sequence of statements, as follows:
+\begin{verbatim}
+IF condition THEN
+   sequence_of_statements1
+ELSE
+   sequence_of_statements2
+END IF;
+\end{verbatim}
+The sequence of statements in the ELSE clause is executed only if the condition is false or null. Thus, the ELSE clause ensures that a sequence of statements is executed. In the following example, the first UPDATE statement is executed when the condition is true, but the second UPDATE statement is executed when the condition is false or null:
+\lstinputlisting[style=mystyle, language=SQL]{sourcecode/PL-IF-THEN-ELSE.sql}
+
+The THEN and ELSE clauses can include IF statements. That is, IF statements can be nested, as the following example shows:
+\lstinputlisting[style=mystyle, language=SQL]{sourcecode/PL-IF-THEN-ELSE2.sql}
+
+\subsubsection{IF-THEN-ELSIF}
+Sometimes you want to select an action from several mutually exclusive alternatives. The third form of IF statement uses the keyword ELSIF (not ELSEIF) to introduce additional conditions, as follows:
+\begin{verbatim}
+IF condition1 THEN
+   sequence_of_statements1
+ELSIF condition2 THEN
+   sequence_of_statements2
+ELSE
+   sequence_of_statements3
+END IF;
+\end{verbatim}
+If the first condition is false or null, the ELSIF clause tests another condition. An IF statement can have any number of ELSIF clauses; the final ELSE clause is optional. Conditions are evaluated one by one from top to bottom. If any condition is true, its associated sequence of statements is executed and control passes to the next statement. If all conditions are false or null, the sequence in the ELSE clause is executed. Consider the following example:
+
+\lstinputlisting[style=mystyle, language=SQL]{sourcecode/PL-if-then-elsif.sql}
+
+If the value of sales is larger than 50000, the first and second conditions are true. Nevertheless, bonus is assigned the proper value of 1500 because the second condition is never tested. When the first condition is true, its associated statement is executed and control passes to the INSERT statement.
+
+\subsubsection{CASE Statement}
+Like the IF statement, the CASE statement selects one sequence of statements to execute. However, to select the sequence, the CASE statement uses a selector rather than multiple Boolean expressions. The CASE statement has the following form:
+\begin{verbatim}
+CASE selector
+   WHEN expression1 THEN sequence_of_statements1;
+   WHEN expression2 THEN sequence_of_statements2;
+   ...
+   WHEN expressionN THEN sequence_of_statementsN;
+  [ELSE sequence_of_statementsN+1;]
+END CASE;
+\end{verbatim}
+\subsubsection{Searched CASE Statement}
+PL/SQL also provides a searched CASE statement, which has the form:
+\begin{verbatim}
+[<<label_name>>]
+CASE
+   WHEN search_condition1 THEN sequence_of_statements1;
+   WHEN search_condition2 THEN sequence_of_statements2;
+   ...
+   WHEN search_conditionN THEN sequence_of_statementsN;
+  [ELSE sequence_of_statementsN+1;]
+END CASE [label_name];
+\end{verbatim}
+The searched CASE statement has no selector. Also, its WHEN clauses contain search conditions that yield a Boolean value, not expressions that can yield a value of any type. An example follows:
+\lstinputlisting[style=mystyle, language=SQL]{sourcecode/PL-case2.sql}
+The search conditions are evaluated sequentially. The Boolean value of each search condition determines which WHEN clause is executed. If a search condition yields TRUE, its WHEN clause is executed. If any WHEN clause is executed, control passes to the next statement, so subsequent search conditions are not evaluated.
+
+\subsection{Iterative Control: LOOP and EXIT Statements}
+\subsubsection{LOOP}
+The simplest form of LOOP statement is the basic (or infinite) loop, which encloses a sequence of statements between the keywords LOOP and END LOOP, as follows:
+\begin{verbatim}
+LOOP
+   sequence_of_statements
+END LOOP;
+\end{verbatim}
+
+With each iteration of the loop, the sequence of statements is executed, then control resumes at the top of the loop. If further processing is undesirable or impossible, you can use an EXIT statement to complete the loop. You can place one or more EXIT statements anywhere inside a loop, but nowhere outside a loop. There are two forms of EXIT statements: EXIT and EXIT-WHEN.
+
+\subsubsection{EXIT}
+The EXIT statement forces a loop to complete unconditionally. When an EXIT statement is encountered, the loop completes immediately and control passes to the next statement. An example follows:
+\lstinputlisting[style=mystyle, language=SQL]{sourcecode/PL-exit.sql}
+
+\subsubsection{EXIT-WHEN}
+The EXIT-WHEN statement lets a loop complete conditionally. When the EXIT statement is encountered, the condition in the WHEN clause is evaluated. If the condition is true, the loop completes and control passes to the next statement after the loop. An example follows:
+\lstinputlisting[style=mystyle, language=SQL]{sourcecode/PL-exitwhen.sql}
+Until the condition is true, the loop cannot complete. So, a statement inside the loop must change the value of the condition. In the last example, if the FETCH statement returns a row, the condition is false. When the FETCH statement fails to return a row, the condition is true, the loop completes, and control passes to the CLOSE statement.
+
+\subsubsection{WHILE-LOOP}
+The WHILE-LOOP statement associates a condition with a sequence of statements enclosed by the keywords LOOP and END LOOP, as follows:
+\begin{verbatim}
+WHILE condition LOOP
+   sequence_of_statements
+END LOOP;
+\end{verbatim}
+Before each iteration of the loop, the condition is evaluated. If the condition is true, the sequence of statements is executed, then control resumes at the top of the loop. If the condition is false or null, the loop is bypassed and control passes to the next statement. An example follows:
+\lstinputlisting[style=mystyle, language=SQL]{sourcecode/PL-while.sql}
+The number of iterations depends on the condition and is unknown until the loop completes. The condition is tested at the top of the loop, so the sequence might execute zero times. In the last example, if the initial value of total is larger than 25000, the condition is false and the loop is bypassed.
+
+\subsubsection{FOR-LOOP}
+Whereas the number of iterations through a WHILE loop is unknown until the loop completes, the number of iterations through a FOR loop is known before the loop is entered. FOR loops iterate over a specified range of integers. The range is part of an iteration scheme, which is enclosed by the keywords FOR and LOOP. A double dot (..) serves as the range operator. The syntax follows:
+\begin{verbatim}
+FOR counter IN [REVERSE] lower_bound..higher_bound LOOP
+   sequence_of_statements
+END LOOP;
+\end{verbatim}
+The range is evaluated when the FOR loop is first entered and is never re-evaluated.
+
+As the next example shows, the sequence of statements is executed once for each integer in the range. After each iteration, the loop counter is incremented.
+\lstinputlisting[style=mystyle, language=SQL]{sourcecode/PL-for.sql}
+By default, iteration proceeds upward from the lower bound to the higher bound. However, as the example below shows, if you use the keyword REVERSE, iteration proceeds downward from the higher bound to the lower bound. After each iteration, the loop counter is decremented. Nevertheless, you write the range bounds in ascending (not descending) order.
+\lstinputlisting[style=mystyle, language=SQL]{sourcecode/PL-for2.sql}
+
+\subsection{Sequential Control: GOTO and NULL Statements}
+Unlike the IF and LOOP statements, the GOTO and NULL statements are not crucial to PL/SQL programming. The structure of PL/SQL is such that the GOTO statement is seldom needed. Occasionally, it can simplify logic enough to warrant its use. The NULL statement can improve readability by making the meaning and action of conditional statements clear.
+
+Overuse of GOTO statements can result in complex, unstructured code (sometimes called spaghetti code) that is hard to understand and maintain. So, use GOTO statements sparingly. For example, to branch from a deeply nested structure to an error-handling routine, raise an exception rather than use a GOTO statement.
+\subsubsection{GOTO Statement}
+The GOTO statement branches to a label unconditionally. The label must be unique within its scope and must precede an executable statement or a PL/SQL block. When executed, the GOTO statement transfers control to the labeled statement or block. In the following example, you go to an executable statement farther down in a sequence of statements:
+\lstinputlisting[style=mystyle, language=SQL]{sourcecode/PL-goto1.sql}
+In the next example, you go to a PL/SQL block farther up in a sequence of statements:
+\lstinputlisting[style=mystyle, language=SQL]{sourcecode/PL-goto2.sql}
+
+\subsubsection{NULL Statement}
+The NULL statement does nothing other than pass control to the next statement. In a conditional construct, the NULL statement tells readers that a possibility has been considered, but no action is necessary. In the following example, the NULL statement shows that no action is taken for unnamed exceptions:
+\lstinputlisting[style=mystyle, language=SQL]{sourcecode/PL-null.sql}
+In IF statements or other places that require at least one executable statement, the NULL statement to satisfy the syntax. In the following example, the NULL statement emphasizes that only top-rated employees get bonuses:
+\lstinputlisting[style=mystyle, language=SQL]{sourcecode/PL-null2.sql}
+Also, the NULL statement is a handy way to create stubs when designing applications from the top down. A stub is dummy subprogram that lets you defer the definition of a procedure or function until you test and debug the main program. In the following example, the NULL statement meets the requirement that at least one statement must appear in the executable part of a subprogram:
+\lstinputlisting[style=mystyle, language=SQL]{sourcecode/PL-null3.sql}
+\clearpage
